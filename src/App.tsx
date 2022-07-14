@@ -1,15 +1,34 @@
 import './App.css';
 
-import { useSelector } from 'react-redux';
+import { ReservationCard } from './components/ReservationCard';
+
+// Action Creator
+import { addReservation } from './features/reservationSlice';
+
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './app/store';
+import { useState } from 'react';
 
 const App = () => {
+  const [reservationNameInput, setReservationNameInput] = useState('');
+
   // Get acceess to our state
   const reservations = useSelector(
     (state: RootState) => state.reservations.value
   );
 
-  console.log(reservations);
+  const dispatch = useDispatch();
+
+  const handleAddReservations = () => {
+    if (!reservationNameInput) {
+      return;
+    }
+
+    // Dispatch Action to Reducer
+    dispatch(addReservation(reservationNameInput));
+
+    setReservationNameInput('');
+  };
 
   return (
     <div className='App'>
@@ -18,15 +37,19 @@ const App = () => {
           <div>
             <h5 className='reservation-header'>Reservations</h5>
             <div className='reservation-cards-container'>
-              <div className='reservation-card-container'>Laith Harb</div>
-              <div className='reservation-card-container'>Laith Harb</div>
-              <div className='reservation-card-container'>Laith Harb</div>
-              <div className='reservation-card-container'>Laith Harb</div>
+              {reservations.map((reservation, idx) => {
+                return (
+                  <ReservationCard key={idx} name={reservation} index={idx} />
+                );
+              })}
             </div>
           </div>
           <div className='reservation-input-container'>
-            <input />
-            <button>Add</button>
+            <input
+              value={reservationNameInput}
+              onChange={(e) => setReservationNameInput(e.target.value)}
+            />
+            <button onClick={handleAddReservations}>Add</button>
           </div>
         </div>
         <div className='customer-food-container'>
