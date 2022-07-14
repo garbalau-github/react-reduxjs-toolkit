@@ -29,6 +29,9 @@ export const CustomerCard = ({ id, name, food }: CustomerCardTypes) => {
           />
           <button
             onClick={() => {
+              if (!customerFoodInput) {
+                return;
+              }
               dispatch(
                 addFoodToCustomer({
                   id: id,
