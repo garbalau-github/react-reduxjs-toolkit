@@ -1,6 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-const initialState = {
+interface ReservationState {
+  value: string[];
+}
+
+const initialState: ReservationState = {
   value: [],
 };
 
@@ -9,10 +13,14 @@ export const reservationsSlice = createSlice({
   initialState,
   reducers: {
     // Bunch of methods that going to update our state
-    add: () => {
-      console.log('add()');
+    addReservation: (state, action: PayloadAction<string>) => {
+      state.value.push(action.payload);
     },
   },
 });
 
+// Export Actions
+export const { addReservation } = reservationsSlice.actions;
+
+// Export Reducer
 export default reservationsSlice.reducer;
