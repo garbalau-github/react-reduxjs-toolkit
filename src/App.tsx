@@ -1,6 +1,7 @@
 import './App.css';
 
 import { ReservationCard } from './components/ReservationCard';
+import { CustomerCard } from './components/CustomerCard';
 
 // Action Creator
 import { addReservation } from './features/reservationSlice';
@@ -16,6 +17,8 @@ const App = () => {
   const reservations = useSelector(
     (state: RootState) => state.reservations.value
   );
+
+  const customers = useSelector((state: RootState) => state.customer.value);
 
   const dispatch = useDispatch();
 
@@ -53,16 +56,9 @@ const App = () => {
           </div>
         </div>
         <div className='customer-food-container'>
-          <div className='customer-food-card-container'>
-            <p>Selena Gomez</p>
-            <div className='customer-foods-container'>
-              <div className='customer-food'></div>
-              <div className='customer-food-input-container'>
-                <input />
-                <button>Add</button>
-              </div>
-            </div>
-          </div>
+          {customers.map((customer, idx) => {
+            return <CustomerCard {...customer} key={idx} />;
+          })}
         </div>
       </div>
     </div>
